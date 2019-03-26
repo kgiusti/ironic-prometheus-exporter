@@ -13,10 +13,13 @@ class TestPrometheusFileNotifier(test_utils.BaseTestCase):
                     file_dir='/tmp/ironic_prometheus_exporter',
                     group='oslo_messaging_notifications')
         transport = oslo_messaging.get_notification_transport(self.conf)
-        oslo_messaging.Notifier(transport, driver='prometheus_exporter',
-                                topics=['my_topics'])
+        my_notifier = oslo_messaging.Notifier(transport, driver='prometheus_exporter',
+                                              topics=['my_topics'])
 
         self.assertEqual(self.conf.oslo_messaging_notifications.file_name,
                          "test.txt")
         self.assertEqual(self.conf.oslo_messaging_notifications.file_dir,
                          '/tmp/ironic_prometheus_exporter')
+        my_notifier.debug({}, "blah blah", "blah!")
+        
+        
